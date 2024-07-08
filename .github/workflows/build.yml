@@ -14,7 +14,14 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Install dependencies
-        run: sudo apt-get update && sudo apt-get install -y cmake
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake
+
+      - name: Install CMake
+        uses: jwlawson/actions-setup-cmake@v1.13
+        with:
+          cmake-version: '3.25.1'
 
       - name: Configure CMake
         run: cmake -B build -S .
@@ -27,3 +34,18 @@ jobs:
           cd build
           make test
           ./test/assignment_test
+
+      - name: Print CMake Version
+        run: cmake --version
+
+      - name: Print Make Version
+        run: make --version
+
+      - name: List Build Directory
+        run: ls -lR build
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-artifact
+          path: build/
