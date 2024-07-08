@@ -23,8 +23,7 @@ jobs:
 
       - name: Configure and Build
         run: |
-          cmake -B build -S .
-          echo 'set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-error=maybe-uninitialized")' >> CMakeLists.txt
+          cmake -B build -S . -DCMAKE_CXX_FLAGS="-Wno-error=maybe-uninitialized -Wno-maybe-uninitialized"
           cmake --build build
 
       - name: Run tests
