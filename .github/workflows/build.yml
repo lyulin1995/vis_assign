@@ -1,32 +1,29 @@
-name: C++ CI
+name: CI
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   pull_request:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
-  build:
+  build-and-test:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Install CMake and Make
-      run: sudo apt-get update && sudo apt-get install -y cmake make g++
-      
-    - name: Create Build Directory
-      run: cmake -B build -S .
-      
-    - name: Build Project
-      run: |
-        cd build
-        make
+      - uses: actions/checkout@v3
 
-    - name: Run Tests
-      run: |
-        cd build
-        make test
-        ./test/assignment_test
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y cmake
+
+      - name: Configure CMake
+        run: cmake -B build -S .
+
+      - name: Build
+        run: cmake --build build
+
+      - name: Run tests
+        run: |
+          cd build
+          make test
+          ./test/assignment_test
