@@ -1,6 +1,7 @@
 #include "robot_controller_ui.h"
 
 #include <iostream>
+#include <limits> // Add this include directive
 
 RobotControllerUI::RobotControllerUI(RobotController &robot_controller, VenipunctureService &venipuncture_service)
     : robot_controller_(robot_controller), venipuncture_service_(venipuncture_service) {}
@@ -71,7 +72,7 @@ void RobotControllerUI::Run() {
     PrintState();
     const int command = RequestCommand();
     if (command > 0) {
-      HandleCommand(robot_controller_,venipuncture_service_, command);
+      HandleCommand(robot_controller_, venipuncture_service_, command);
     } else if (command < 0) {
       std::cout << "ERROR: Input error occurred" << std::endl << std::endl;
     } else if (command == 0) {
