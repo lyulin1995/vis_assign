@@ -22,9 +22,8 @@ jobs:
       - name: Create Build Directory and Configure Project
         run: |
           cmake -B build -S .
-          if grep -q "add_compile_options(-Werror)" external/googletest/CMakeLists.txt; then
-            sed -i 's/add_compile_options(-Werror)//' external/googletest/CMakeLists.txt
-          fi
+          cd build
+          cmake -DCMAKE_CXX_FLAGS="-Wno-error=maybe-uninitialized" ..
 
       - name: Build Project
         run: |
