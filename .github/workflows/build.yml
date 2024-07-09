@@ -19,8 +19,12 @@ jobs:
       - name: Install required packages
         run: sudo apt-get update && sudo apt-get install -y cmake make g++
 
-      - name: Create Build Directory
-        run: cmake -B build -S .
+      - name: Create Build Directory and Configure Project
+        run: |
+          cmake -B build -S .
+          if grep -q "add_compile_options(-Werror)" external/googletest/CMakeLists.txt; then
+            sed -i 's/add_compile_options(-Werror)//' external/googletest/CMakeLists.txt
+          fi
 
       - name: Build Project
         run: |
