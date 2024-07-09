@@ -18,12 +18,16 @@ int RobotControllerUI::RequestCommand() {
   int command;
   std::cin >> command;
 
-  if (std::cin.eof() || std::cin.bad()) {
+  if (std::cin.eof()) {
+    std::cout << "ERROR: End of file reached." << std::endl;
+    command = -1;
+  } else if (std::cin.bad()) {
+    std::cout << "ERROR: Irrecoverable stream error." << std::endl;
     command = -1;
   } else if (std::cin.fail()) {
     std::cin.clear(); // unset failbit
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(),
-                    '\n'); // skip bad input
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // skip bad input
+    std::cout << "ERROR: Invalid input." << std::endl;
     command = -1;
   }
 
@@ -83,7 +87,7 @@ void RobotControllerUI::Run() {
 
 void RobotControllerUI::PrintState() {
   std::cout << "=== Current status ===" << std::endl;
-//  std::cout << "Current state:" << std::endl;
+  // std::cout << "Current state:" << std::endl;
   std::cout << "Light status:                " << (int) venipuncture_service_.image_processing_service.state() << std::endl;
   std::cout << "VeniPunctureService status:  " << (int) venipuncture_service_.state << std::endl;
   std::cout << "RobotController status:      " << (int) robot_controller_.state << std::endl;
