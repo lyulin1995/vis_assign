@@ -20,7 +20,7 @@ int RobotControllerUI::RequestCommand() {
 
   if (std::cin.eof()) {
     std::cout << "ERROR: End of file reached." << std::endl;
-    command = -1;
+    command = 0; // Treat EOF as a command to quit
   } else if (std::cin.bad()) {
     std::cout << "ERROR: Irrecoverable stream error." << std::endl;
     command = -1;
